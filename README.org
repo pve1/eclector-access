@@ -1,0 +1,54 @@
+* Eclector-Access
+
+This is an attempt to provide a way to enable the Eclector reader on a
+per-file basis (a bit like "in-package").
+
+** Usage
+
+Define a client by subclassing eclector-access:client. By default,
+characters of type STANDARD-CHARACTER will activate the client when
+reading. Eclector methods should be defined for the client.
+
+** Example
+
+#+BEGIN_SRC lisp
+(defpackage #:my-project
+  (:use #:cl))
+
+(in-package #:my-project)
+
+(defclass my-client (eclector-access:client) ())
+
+(defvar *client* (make-instance 'my-client))
+
+(defmethod eclector.reader:interpret-symbol :before ((client my-client)
+                                                     input-stream
+                                                     package-indicator
+                                                     symbol-name
+                                                     internp)
+  (format t "~&Now interpreting ~S~%" symbol-name))
+#+END_SRC
+
+Then enable the client in source files as necessary.
+
+#+BEGIN_SRC lisp
+(in-package #:my-project)
+
+(eclector-access:enable *client*)
+
+(defun foo ()
+  'hello)
+#+END_SRC
+
+When the file is loaded:
+
+#+BEGIN_SRC lisp
+(load "my-project")
+
+==> 
+
+Now interpreting "DEFUN"
+Now interpreting "FOO"
+Now interpreting "HELLO"
+#+END_SRC
+
