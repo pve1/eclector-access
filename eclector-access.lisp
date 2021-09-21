@@ -1,7 +1,8 @@
 (defpackage #:eclector-access
   (:use #:cl)
   (:export #:enable
-           #:client))
+           #:client
+           #:client-readtable))
 
 (in-package #:eclector-access)
 
@@ -22,7 +23,8 @@
 (defclass client ()
   ((%readtable :initarg :readtable
                :initform (copy-readtable nil)
-               :reader access-readtable)
+               :reader access-readtable
+               :reader client-readtable)
    (%character-set :initarg :character-set
                    :initform *standard-characters*
                    :reader character-set)))
