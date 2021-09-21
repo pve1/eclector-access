@@ -9,6 +9,10 @@
 ;;; example treats a return value of NIL as meaning "no translation
 ;;; necessary".
 
+;;; Something like this could be useful if a software project has a
+;;; commonly occuring pattern that could be handled with a simple
+;;; naming convention for variables (well-documented, of course).
+
 (defclass reader (eclector-access:client)
   ((patterns :initarg :patterns
              :accessor patterns
