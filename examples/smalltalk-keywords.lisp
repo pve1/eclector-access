@@ -14,7 +14,7 @@
                                             input-stream
                                             token
                                             escape-ranges)
-  ;; Should check for edge cases.
+  ;; Should check edge cases.
   (if (eql #\: (aref token (1- (length token))))
       (funcall (translation client)
                (call-next-method client
