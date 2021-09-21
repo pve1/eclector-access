@@ -3,8 +3,10 @@
 
 (in-package #:smalltalk-keywords-test)
 
-(eclector-access:enable (make-instance 'smalltalk-keywords:reader
-                                       :operator 'send))
+(eclector-access:enable
+ (make-instance 'smalltalk-keywords:reader
+                :translation (lambda (symbol)
+                               (list 'send symbol))))
 
 (print '(foo: bar baz))
 
