@@ -1,3 +1,6 @@
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (load (merge-pathnames "package-nicknames.lisp" *load-truename*)))
+
 (defpackage #:package-nicknames-test
   (:use #:cl))
 

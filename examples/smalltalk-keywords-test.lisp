@@ -1,3 +1,6 @@
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (load (merge-pathnames "smalltalk-keywords.lisp" *load-truename*)))
+
 (defpackage #:smalltalk-keywords-test
   (:use #:cl))
 

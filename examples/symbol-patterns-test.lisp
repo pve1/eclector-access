@@ -1,3 +1,6 @@
+(eval-when (:compile-toplevel :load-toplevel :execute)
+  (load (merge-pathnames "symbol-patterns.lisp" *load-truename*)))
+
 (defpackage #:symbol-patterns-test
   (:use #:cl))
 
@@ -8,10 +11,10 @@
 
 (eclector-access:enable
  (make-instance 'symbol-patterns:reader
-                :patterns (lambda (symbol)
-                            (when (and (not (zerop (length (symbol-name symbol))))
-                                       (eql (aref (symbol-name symbol) 0) #\?))
-                              `(gethash ',symbol *mood*)))))
+                :translation (lambda (symbol)
+                               (when (and (not (zerop (length (symbol-name symbol))))
+                                          (eql (aref (symbol-name symbol) 0) #\?))
+                                 `(gethash ',symbol *mood*)))))
 
 (defvar *mood*)
 (defvar *bored* (make-hash-table :test 'eq))
