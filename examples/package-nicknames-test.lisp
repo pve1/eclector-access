@@ -1,11 +1,9 @@
-(eval-when (:compile-toplevel :load-toplevel :execute)
-  (load (merge-pathnames "package-nicknames.lisp" *load-truename*)))
-
 (defpackage #:package-nicknames-test
   (:use #:cl))
 
 (in-package #:package-nicknames-test)
 
+;;; Activate reader
 (eclector-access:enable
  (make-instance 'package-nicknames:reader
                 :nicknames '("E" "ECLECTOR-ACCESS"

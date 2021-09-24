@@ -1,7 +1,6 @@
 (defpackage #:symbol-patterns
   (:use #:cl)
   (:export #:reader
-           #:*reader*
            #:translation))
 
 (in-package #:symbol-patterns)
@@ -20,8 +19,6 @@
                 :accessor translation
                 :initform (constantly nil))))
 
-(defvar *reader*)
-
 (defmethod eclector.reader:interpret-symbol ((client reader)
                                              input-stream
                                              package-indicator
@@ -29,7 +26,6 @@
                                              internp)
 
   (let* ((symbol (call-next-method))
-         (*reader* client)
          (match (funcall (translation client) symbol)))
     (if match
         match

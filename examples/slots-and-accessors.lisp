@@ -1,17 +1,12 @@
-(eval-when (:compile-toplevel :load-toplevel :execute)
-  (require "SPLIT-SEQUENCE")
-  (load (merge-pathnames "symbol-patterns.lisp" *load-truename*)))
-
 (defpackage #:slots-and-accessors
   (:use #:cl)
   (:export #:reader))
 
 (in-package #:slots-and-accessors)
 
-;;; In this example reader, we define patterns to imitate WITH-SLOTS
-;;; and WITH-ACCESSORS. By default, FOO.ID means (SLOT-VALUE FOO 'ID),
-;;; and FOO/ID means (ID FOO). The current package (*package*) is used
-;;; to resolve the symbols.
+;;; In this example reader, we define symbol patterns to imitate
+;;; WITH-SLOTS and WITH-ACCESSORS. By default, FOO.ID means
+;;; (SLOT-VALUE FOO 'ID), and FOO/ID means (ID FOO).
 
 (defclass reader (symbol-patterns:reader)
   ((slot-separator :initarg :slot-separator
@@ -26,7 +21,7 @@
 
 (defun translate (symbol)
   (let ((name (symbol-name symbol))
-        (reader symbol-patterns:*reader*))
+        (reader eclector.reader:*client*))
     ;; Accessors
     (cond ((find (accessor-separator reader) name) ; FOO/ID
            (let ((components (split-sequence:split-sequence
