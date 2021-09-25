@@ -8,6 +8,10 @@
 ;;; WITH-SLOTS and WITH-ACCESSORS. By default, FOO.ID means
 ;;; (SLOT-VALUE FOO 'ID), and FOO/ID means (ID FOO).
 
+;;; It is really only suitable to use these patterns in cases where
+;;; all symbols involved are present in the current package
+;;; (*package*).
+
 (defclass reader (symbol-patterns:reader)
   ((slot-separator :initarg :slot-separator
                    :accessor slot-separator
@@ -24,6 +28,7 @@
          (let ((components (split-sequence:split-sequence
                             (accessor-separator reader)
                             symbol-name)))
+           ;; Crash on FOO/BAR/ID, FOO.BAR.ID etc.
            (unless (= (length components) 2)
              (error "Confused by symbol ~S." symbol-name))
            ;; Could use FIND-SYMBOL too.
