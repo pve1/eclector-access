@@ -10,7 +10,12 @@
 (eclector-access:enable
  (make-instance 'slots-and-accessors:reader
                 :accessor-separator #\/
-                :slot-separator #\.))
+                :slot-separator #\.
+                :character-set (set-difference eclector-access::*standard-characters*
+                                               '(#\(
+                                                 #\)
+                                                 #\Newline
+                                                 #\Space))))
 
 (defclass foo ()
   ((a :initarg :a)
