@@ -16,29 +16,26 @@
                        :accessor accessor-separator
                        :initform #\/)))
 
-(defmethod initialize-instance :after ((reader reader) &key)
-  (setf (symbol-patterns:translation reader) #'translate))
-
-(defun translate (symbol)
-  (let ((name (symbol-name symbol))
-        (reader eclector.reader:*client*))
-    ;; Accessors
-    (cond ((find (accessor-separator reader) name) ; FOO/ID
-           (let ((components (split-sequence:split-sequence
-                              (accessor-separator reader)
-                              name)))
-             (unless (= (length components) 2)
-               (error "Confused by symbol ~S." symbol))
-             ;; Could use FIND-SYMBOL too.
-             `(,(intern (second components) *package*)
-               ,(intern (first components) *package*))))
-          ;; Slots
-          ((find (slot-separator reader) name) ; FOO.ID
-           (let ((components (split-sequence:split-sequence
-                              (slot-separator reader)
-                              name)))
-             (unless (= (length components) 2)
-               (error "Confused by symbol ~S." symbol))
-             `(slot-value ,(intern (first components) *package*)
-                          ',(intern (second components) *package*))))
-          (t nil))))
+(defmethod symbol-patterns:translate-symbol ((reader reader)
+                                             symbol-name
+                                             package-indicator)
+  ;; Accessors
+  (cond ((find (accessor-separator reader) symbol-name) ; FOO/ID
+         (let ((components (split-sequence:split-sequence
+                            (accessor-separator reader)
+                            symbol-name)))
+           (unless (= (length components) 2)
+             (error "Confused by symbol ~S." symbol-name))
+           ;; Could use FIND-SYMBOL too.
+           `(,(intern (second components) *package*)
+             ,(intern (first components) *package*))))
+        ;; Slots
+        ((find (slot-separator reader) symbol-name) ; FOO.ID
+         (let ((components (split-sequence:split-sequence
+                            (slot-separator reader)
+                            symbol-name)))
+           (unless (= (length components) 2)
+             (error "Confused by symbol ~S." symbol-name))
+           `(slot-value ,(intern (first components) *package*)
+                        ',(intern (second components) *package*))))
+        (t nil)))

@@ -1,7 +1,7 @@
 (defpackage #:symbol-patterns
   (:use #:cl)
   (:export #:reader
-           #:translation))
+           #:translate-symbol))
 
 (in-package #:symbol-patterns)
 
@@ -15,18 +15,20 @@
 ;;; naming convention for variables (well-documented, of course).
 
 (defclass reader (eclector-access:client)
-  ((translation :initarg :translation
-                :accessor translation
-                :initform (constantly nil))))
+  ())
+
+(defgeneric translate-symbol (reader symbol-name package-indicator)
+  (:method (reader symbol-name package-indicator)
+    nil))
 
 (defmethod eclector.reader:interpret-symbol ((client reader)
                                              input-stream
                                              package-indicator
                                              symbol-name
                                              internp)
-
-  (let* ((symbol (call-next-method))
-         (match (funcall (translation client) symbol)))
+  (let ((match (translate-symbol client
+                                 symbol-name
+                                 package-indicator)))
     (if match
         match
-        symbol)))
+        (call-next-method))))
