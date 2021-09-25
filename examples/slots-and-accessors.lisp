@@ -31,7 +31,6 @@
            ;; Crash on FOO/BAR/ID, FOO.BAR.ID etc.
            (unless (= (length components) 2)
              (error "Confused by symbol ~S." symbol-name))
-           ;; Could use FIND-SYMBOL too.
            `(,(intern (second components) *package*)
              ,(intern (first components) *package*))))
         ;; Slots
