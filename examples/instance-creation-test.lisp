@@ -3,6 +3,9 @@
 
 (in-package #:instance-creation-test)
 
+;;; This example shows how to create new instances of a class by
+;;; capitalizing its name.
+
 (eclector-access:enable (make-instance 'instance-creation:reader))
 
 (defclass foo ()
