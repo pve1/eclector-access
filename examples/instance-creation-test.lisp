@@ -27,7 +27,6 @@
 ; => (MAKE-INSTANCE 'FOO :A (MAKE-INSTANCE 'FOO :A 1)
 ;                        :B (MAKE-INSTANCE 'FOO :B 2))
 
-
 (print (Foo)) ; => #<FOO A: NIL B: NIL>
 
 (print (Foo :a 1 :b 2)) ; => #<FOO A: 1 B: 2>
