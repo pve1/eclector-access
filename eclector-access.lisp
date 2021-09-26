@@ -2,7 +2,8 @@
   (:use #:cl)
   (:export #:enable
            #:client
-           #:client-readtable))
+           #:client-readtable
+           #:translate-read-result))
 
 (in-package #:eclector-access)
 
@@ -29,16 +30,26 @@
                    :initform *standard-characters*
                    :reader character-set)))
 
+
+(defgeneric translate-read-result (client read-result)
+  (:method (client read-result)
+    read-result))
+
 (defmethod initialize-instance :after ((client client) &key)
   (let ((reader-macro-function (lambda (stream char)
                                  (unread-char char stream)
                                  (let* ((eclector.reader:*client* client)
-                                        (result (eclector.reader:read stream nil stream)))
+                                        (result (eclector.reader:read stream
+                                                                      nil
+                                                                      stream)))
                                    (if (eq result stream)
                                        (values)
-                                       result)))))
+                                       (translate-read-result client result))))))
     (dolist (char (character-set client))
-      (set-macro-character char reader-macro-function nil (access-readtable client)))))
+      (set-macro-character char
+                           reader-macro-function
+                           nil
+                           (access-readtable client)))))
 
 (defmacro enable (client)
   `(eval-when (:compile-toplevel :load-toplevel :execute)
