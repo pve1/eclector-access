@@ -30,7 +30,6 @@
                    :initform *standard-characters*
                    :reader character-set)))
 
-
 (defgeneric translate-read-result (client read-result)
   (:method (client read-result)
     read-result))
