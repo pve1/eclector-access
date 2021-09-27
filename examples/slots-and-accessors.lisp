@@ -5,7 +5,7 @@
 (in-package #:slots-and-accessors)
 
 ;;; In this example reader, we define symbol patterns to imitate
-;;; WITH-SLOTS and WITH-ACCESSORS. By default, FOO.ID means
+;;; WITH-SLOTS and WITH-ACCESSORS.  By default, FOO.ID means
 ;;; (SLOT-VALUE FOO 'ID), and FOO/ID means (ID FOO).
 
 ;;; It is really only suitable to use these patterns in cases where

@@ -6,7 +6,7 @@
 (in-package #:symbol-patterns)
 
 ;;; The reader contains a pattern function (taking one symbol as its
-;;; argument) that may translate the symbol into something else. This
+;;; argument) that may translate the symbol into something else.  This
 ;;; example treats a return value of NIL as meaning "no translation
 ;;; necessary".
 

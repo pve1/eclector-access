@@ -5,10 +5,12 @@
 (in-package #:keyword-messages)
 
 ;;; This example defines a reader that recognizes "keyword messages"
-;;; similar to those found in Smalltalk. In a message form, the first
-;;; element is the recipient of the message and the rest is any number of
-;;; alternating keywords and arguments. The keywords are of the
+;;; similar to those found in Smalltalk.  In a message form, the first
+;;; element is the recipient of the message and the rest is any number
+;;; of alternating keywords and arguments.  The keywords are of the
 ;;; form "foo:" (which would normally be illegal in Common Lisp).
+;;; This is, of course, purely an exercise in syntax.  No other
+;;; aspects of Smalltalk message passing are implemented.
 ;;;
 ;;; An example message looks like this:
 ;;;
@@ -27,7 +29,7 @@
 ;;;
 ;;;   (PRIN1-TO-STRING (1+ (FLOOR 1.5)))
 ;;;
-;;; A recipient can itself be a message form. This means that the
+;;; A recipient can itself be a message form.  This means that the
 ;;; following is also valid:
 ;;;
 ;;;   ((1 to: 5) third: 1+:)

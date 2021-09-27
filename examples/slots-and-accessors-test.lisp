@@ -4,7 +4,7 @@
 (in-package #:slots-and-accessors-test)
 
 ;;; Sometimes, code that contains many (SLOT-VALUE ...) forms can feel
-;;; a bit verbose. In this example, the reader is used to provide an
+;;; a bit verbose.  In this example, the reader is used to provide an
 ;;; alternative to WITH-ACCESSORS and WITH-SLOTS.
 
 (eclector-access:enable

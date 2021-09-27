@@ -4,13 +4,13 @@
 (in-package #:keyword-messages-test)
 
 ;;; This file demonstrates how to use the keyword messages defined
-;;; keyword-messages.lisp. Please see that file for a more detailed
+;;; keyword-messages.lisp.  Please see that file for a more detailed
 ;;; explanation.
 ;;;
 ;;; If you're using Emacs, try this:
 ;;;
-;;; Select the following expression and do M-x eval-region to highlight
-;;; the new message keywords in a fresh green color :)
+;;; Select the following expression and do M-x eval-region to
+;;; highlight the new message keywords in a fresh green color :)
 ;;;
 ;;; (font-lock-add-keywords nil '((" \\(\\(\\sw\\|\\s_\\)+\\):" (0 '(t :foreground "Aquamarine")))))
 ;;;
