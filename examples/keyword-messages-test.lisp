@@ -9,7 +9,7 @@
 ;;;
 ;;; If you're using Emacs, try this:
 ;;;
-;;; Select the following expressionand do M-x eval-region to highlight
+;;; Select the following expression and do M-x eval-region to highlight
 ;;; the new message keywords in a fresh green color :)
 ;;;
 ;;; (font-lock-add-keywords nil '((" \\(\\(\\sw\\|\\s_\\)+\\):" (0 '(t :foreground "Aquamarine")))))
