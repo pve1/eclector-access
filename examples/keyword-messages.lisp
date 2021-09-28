@@ -42,7 +42,7 @@
 ;;; Keywords
 
 (defclass message-keyword ()
-  ((name :initarg :name :reader name :initform (error "Must supply name."))))
+  ((%symbol :initarg :symbol :initform (error "Must supply symbol."))))
 
 (defmethod print-object ((object message-keyword) stream)
   (print-unreadable-object (object stream)
@@ -52,6 +52,12 @@
 (defun keyword-message-form-p (form)
   (and (consp form)
        (typep (second form) 'message-keyword)))
+
+(defmethod name ((message-keyword message-keyword))
+  (symbol-name (slot-value message-keyword '%symbol)))
+
+(defmethod keyword-package ((message-keyword message-keyword))
+  (symbol-package (slot-value message-keyword '%symbol)))
 
 ;;; Reader
 
@@ -71,7 +77,7 @@
                               reader recipient)
                 :for kw :in parameters
                 :do (setf form `(,(intern (format nil "~A" (name kw))
-                                          *package*)
+                                          (keyword-package kw))
                                  ,form))
                 :finally (return form))
           (progn
@@ -84,7 +90,7 @@
                                  arguments %arguments))
             `(,(intern (format nil "~:{~A~A~}"
                                (mapcar (lambda (kw) (list (name kw) marker)) keywords))
-                       *package*)
+                       (keyword-package (first keywords)))
               ,(eclector-access:translate-read-result reader recipient)
               ,@(mapcar (lambda (arg)
                           (eclector-access:translate-read-result reader arg))
@@ -108,5 +114,5 @@
                                       input-stream
                                       (subseq token 0 (1- (length token)))
                                       escape-ranges)))
-        (make-instance 'message-keyword :name (string symbol)))
+        (make-instance 'message-keyword :symbol symbol))
       (call-next-method)))
