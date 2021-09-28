@@ -39,7 +39,11 @@
 
 (print '(1 to: 5)) ; => (TO= 1 5)
 
-((1 to: 5) print:) ; => (1 2 3 4 5)
+(print (1 to: 5)) ; => (1 2 3 4 5)
+
+(print '((1 to: 5) length: print:)) ; => (PRINT (LENGTH (TO= 1 5)))
+
+((1 to: 5) length: print:) ; => 5
 
 (print '(1 to: 5 do: (lambda (n) (n squared: print:))))
 
