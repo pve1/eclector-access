@@ -12,9 +12,9 @@
 ;;; Select the following expression and do M-x eval-region to
 ;;; highlight the new message keywords in a fresh green color :)
 ;;;
-;;; (font-lock-add-keywords nil '((" \\(\\(\\sw\\|\\s_\\)+\\):" (0 '(t :foreground "Aquamarine")))))
+;;; (font-lock-add-keywords nil '(("\\(\\w+:\\)[^[:word:]:]" (1 '(t :foreground "Aquamarine")))))
 ;;;
-;;; (don't worry, its buffer-local)
+;;; (don't worry, it's buffer-local)
 
 (eclector-access:enable (make-instance 'keyword-messages:reader
                                        :marker "="))
