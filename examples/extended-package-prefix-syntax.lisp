@@ -25,15 +25,15 @@
                      (declare (ignore c))
                      ;; Should check escape ranges here, in case first
                      ;; ":" was escaped..
-                       (if (alexandria:ends-with-subseq "::" token)
-                           (let* ((package-name ; All except "::"
-                                    (subseq token 0 (- (length token) 2)))
-                                  (package (find-package package-name)))
-                             (unless package
-                               (error "No package named ~A." package-name))
-                             (let ((*alternate-package* package))
-                               (return-from eclector.reader:interpret-token
-                                 (eclector.reader:read input-stream t nil t))))))))
+                     (if (alexandria:ends-with-subseq "::" token)
+                         (let* ((package-name ; All except "::"
+                                  (subseq token 0 (- (length token) 2)))
+                                (package (find-package package-name)))
+                           (unless package
+                             (error "No package named ~A." package-name))
+                           (let ((*alternate-package* package))
+                             (return-from eclector.reader:interpret-token
+                               (eclector.reader:read input-stream t nil t))))))))
     (call-next-method)))
 
 (defmethod eclector.reader:interpret-symbol ((client reader)
