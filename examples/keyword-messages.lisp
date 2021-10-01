@@ -16,7 +16,7 @@
 ;;;
 ;;;   (1 to: 5 do: #'print)
 ;;;
-;;; and it is simply translated into:
+;;; and by default, it is simply translated into:
 ;;;
 ;;;   (TO=DO= 1 5 #'PRINT)
 ;;;
@@ -44,11 +44,14 @@
 (defclass message-keyword ()
   ((%symbol :initarg :symbol :initform (error "Must supply symbol."))))
 
+(defgeneric name (x))
+
 (defmethod print-object ((object message-keyword) stream)
   (print-unreadable-object (object stream)
     (princ (name object) stream)
     (princ ":" stream)))
 
+;; (x foo: y bar: z)?
 (defun keyword-message-form-p (form)
   (and (consp form)
        (typep (second form) 'message-keyword)))
@@ -64,7 +67,7 @@
 (defclass reader (eclector-access:client)
   ((marker :initarg :marker :reader marker :initform "=")))
 
-;; Translates (foo a: 1 b: 2) to (a=b= foo 1 2).
+;; Translates (foo a: 1 b: 2) into (a=b= foo 1 2).
 (defun translate-keyword-message-form (reader message)
   (destructuring-bind (recipient &rest parameters)
       message
