@@ -1,6 +1,5 @@
 (defpackage #:extended-package-prefix-syntax-test
-  (:use #:cl)
-  (:export #:reader))
+  (:use #:cl))
 
 (in-package #:extended-package-prefix-syntax-test)
 
