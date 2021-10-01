@@ -23,16 +23,17 @@
   (handler-bind ((eclector.reader:symbol-name-must-not-end-with-package-marker
                    (lambda (c)
                      (declare (ignore c))
-                     (let* ((len (length token)))
-                       ;; Should check escape ranges here, in case first ":" was escaped..
+                     ;; Should check escape ranges here, in case first
+                     ;; ":" was escaped..
                        (if (alexandria:ends-with-subseq "::" token)
-                           (let* ((package-name (subseq token 0 (- len 2))) ; All except "::"
+                           (let* ((package-name ; All except "::"
+                                    (subseq token 0 (- (length token) 2)))
                                   (package (find-package package-name)))
                              (unless package
                                (error "No package named ~A." package-name))
                              (let ((*alternate-package* package))
                                (return-from eclector.reader:interpret-token
-                                 (eclector.reader:read input-stream t nil t)))))))))
+                                 (eclector.reader:read input-stream t nil t))))))))
     (call-next-method)))
 
 (defmethod eclector.reader:interpret-symbol ((client reader)
