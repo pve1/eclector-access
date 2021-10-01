@@ -1,8 +1,6 @@
 (defpackage #:hierarchical-packages-test
   (:use #:cl))
 
-(in-package #:hierarchical-packages-test)
-
 ;;; This file demonstrates a reader that recognizes hierarchical
 ;;; packages, similar to the those implemented by Allegro CL. This
 ;;; only works on the reader level, and does not affect the behaviour
