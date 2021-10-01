@@ -7,4 +7,5 @@
   :version "0.0.1"
   :serial t
   :components ((:file "eclector-access"))
-  :depends-on (#:eclector))
+  :depends-on (#:eclector
+               #:alexandria))
