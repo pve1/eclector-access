@@ -15,6 +15,7 @@
 
 (defpackage #:hierarchical-packages-test.foo (:use #:cl))
 (defpackage #:hierarchical-packages-test.foo.bar (:use #:cl))
+(defpackage #:hierarchical-packages-test.foo.bar2 (:use #:cl))
 (defpackage #:hierarchical-packages-test.foo.bar.baz (:use #:cl))
 
 (in-package #:hierarchical-packages-test)
@@ -34,3 +35,5 @@
 (print '...::a) ; => HIERARCHICAL-PACKAGES-TEST::A
 
 (print '.baz::a) ; => HIERARCHICAL-PACKAGES-TEST.FOO.BAR.BAZ::A
+
+(print '..bar2::a) ; => HIERARCHICAL-PACKAGES-TEST.FOO.BAR2::A
