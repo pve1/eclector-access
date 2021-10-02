@@ -30,7 +30,7 @@ extended package prefix syntax, i.e.:
 'FOO::(BAR QUUX ZOT) == '(FOO::BAR FOO::QUUX FOO::ZOT)
 #+END_SRC
 
-Package locks will still work, so CL::(A B C) will signal an error on
+Package locks will still work, so ~CL::(A B C)~ will signal an error on
 implementations that lock the CL package.
 
 See extended-package-prefix-syntax-test.lisp for a demonstration.
