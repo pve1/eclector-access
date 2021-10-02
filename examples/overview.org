@@ -111,7 +111,7 @@ becomes
 #+END_SRC
 
 This reader could make code that uses many different classes and
-that relies heavily on MAKE-INSTANCE a bit easier to write, and
+that relies heavily on ~MAKE-INSTANCE~ a bit easier to write, and
 possibly to read.
 
 See instance-creation-test.lisp for a demonstration.
