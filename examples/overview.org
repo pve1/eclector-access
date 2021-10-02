@@ -86,6 +86,11 @@ respectively. This provides an always-on alternative to ~WITH-SLOTS~ and
 
 Example:
 #+BEGIN_SRC lisp
+(eclector-access:enable
+ (make-instance 'slots-and-accessors:reader
+                :accessor-separator #\/
+                :slot-separator #\.))
+
 (print '(setf foo/c (+ foo.a foo.b)))
 
 ; => (SETF (C FOO) (+ (SLOT-VALUE FOO 'A) (SLOT-VALUE FOO 'B)))
