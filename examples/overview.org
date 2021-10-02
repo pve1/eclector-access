@@ -118,13 +118,13 @@ See instance-creation-test.lisp for a demonstration.
 
 ** Keyword Messages
 
-This example defines a reader that recognizes "keyword messages"
-similar to those found in Smalltalk.  In a message form, the first
-element is the recipient of the message and the rest is any number
-of alternating keywords and arguments.  The keywords are of the
-form ~foo:~ (which would normally be illegal in Common Lisp).
-This is, of course, purely an exercise in syntax.  No other
-aspects of Smalltalk message passing are implemented.
+This example defines a (pretty adventurous) reader that recognizes
+"keyword messages" similar to those found in Smalltalk.  In a message
+form, the first element is the recipient of the message and the rest
+is any number of alternating keywords and arguments.  The keywords are
+of the form ~foo:~ (which would normally be illegal in Common Lisp).
+This is, of course, purely an exercise in syntax.  No other aspects of
+Smalltalk message passing are implemented.
 
 An example message looks like this:
 
