@@ -26,7 +26,9 @@ GETHASH, like so:
 This client defines a reader that is able to understand SBCL's
 extended package prefix syntax, i.e.:
 
+#+BEGIN_SRC lisp
 'FOO::(BAR QUUX ZOT) == '(FOO::BAR FOO::QUUX FOO::ZOT)
+#+END_SRC
 
 Package locks will still work, so CL::(A B C) will signal an error on
 implementations that lock the CL package.
@@ -96,7 +98,17 @@ See slots-and-accessors-test.lisp for a demonstration.
 This example defines a reader that recognizes capitalized symbols
 and translates them into MAKE-INSTANCE forms.
 
-E.g. "(Foo :a 1 :b 2)" becomes (MAKE-INSTANCE 'FOO :A 1 :B 2).
+Example:
+ 
+#+BEGIN_SRC lisp
+(Foo :a 1 :b 2)
+#+END_SRC
+
+becomes
+
+#+BEGIN_SRC lisp
+(MAKE-INSTANCE 'FOO :A 1 :B 2).
+#+END_SRC
 
 This reader could make code that uses many different classes and
 that relies heavily on MAKE-INSTANCE a bit easier to write, and
@@ -116,29 +128,41 @@ aspects of Smalltalk message passing are implemented.
 
 An example message looks like this:
 
+#+BEGIN_SRC lisp
 (1 to: 5 do: #'print)
+#+END_SRC
 
 and by default, it is simply translated into:
 
+#+BEGIN_SRC lisp
 (TO=DO= 1 5 #'PRINT)
+#+END_SRC
 
 If a message consists solely of keywords, then it is interpreted as a
 unary message chain. For example:
 
+#+BEGIN_SRC lisp
 (1.5 floor: 1+: prin1-to-string:)
+#+END_SRC
 
 becomes:
 
+#+BEGIN_SRC lisp
 (PRIN1-TO-STRING (1+ (FLOOR 1.5)))
+#+END_SRC
 
 A recipient can itself be a message form.  This means that the
 following is also valid:
 
+#+BEGIN_SRC lisp
 ((1 to: 5) third: 1+:)
+#+END_SRC
 
 this becomes:
 
+#+BEGIN_SRC lisp
 (1+ (THIRD (TO= 1 5)))
+#+END_SRC
 
 See keyword-messages-test.lisp for a demonstration.
 
