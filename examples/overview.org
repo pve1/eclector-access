@@ -1,0 +1,144 @@
+
+* Examples overview
+
+Each example defines an Eclector client that in some way extends the
+behaviour of the standard Common Lisp reader. Since the clients are
+accessed through the readtable, all examples require that the client
+is "enabled" at the beginning of a lisp file (i.e. change to the
+readtable that provides access to client).
+
+** Symbol Patterns
+
+This is a general client that can replace symbols in a file-local
+fashion with something else whenever a symbol satisfies a test. Kind
+of like a symbol macro for a set of symbols that applies to the entire
+file.
+
+For instance, symbols ending with a "^" could expand into a call to
+GETHASH, like so:
+
+#+BEGIN_SRC lisp
+(incf foo^) => (incf (gethash 'foo *my-counters* 0))
+#+END_SRC
+
+** Extended Package Prefix Syntax
+
+This client defines a reader that is able to understand SBCL's
+extended package prefix syntax, i.e.:
+
+'FOO::(BAR QUUX ZOT) == '(FOO::BAR FOO::QUUX FOO::ZOT)
+
+Package locks will still work, so CL::(A B C) will signal an error on
+implementations that lock the CL package.
+
+See extended-package-prefix-syntax-test.lisp for a demonstration.
+
+http://www.sbcl.org/manual/index.html#Extended-Package-Prefix-Syntax
+
+** Package Nicknames
+
+This reader is initialized with mapping from nicknames to packages and
+will simply replace symbols having one of the nicknames as package
+designator with the corresponding real package name.
+
+Example:
+
+#+BEGIN_SRC lisp
+(eclector-access:enable
+ (make-instance 'package-nicknames:reader
+                :nicknames '("E" "ECLECTOR-ACCESS"
+                             "P" "PACKAGE-NICKNAMES"
+                             "C" "CL")))
+
+(print 'e:client)
+(print 'p:reader)
+(print (c:list 1 2))
+#+END_SRC
+
+** Hierarchical Packages
+
+This example defines a bare-bones reader that mimics the hierarchical
+packages mechanism as implemented by Allegro CL.
+
+#+BEGIN_SRC lisp
+(defpackage #:foo (:use #:cl))
+(defpackage #:foo.bar (:use #:cl))
+
+(in-package #:foo)
+
+(print '.bar::a)
+
+; => FOO.BAR::A
+#+END_SRC
+
+See hierarchical-packages-test.lisp for a demonstration.
+
+https://franz.com/support/documentation/current/doc/packages.htm#resolving-relative-2
+
+** Slots and Accessors
+
+This reader will recognize symbol patterns like "FOO.A" or "FOO/ID"
+and replace them with calls to (SLOT-VALUE FOO 'A) or (ID FOO)
+respectively. This provides an always-on alternative to WITH-SLOTS and
+WITH-ACCESSORS.
+
+Example:
+#+BEGIN_SRC lisp
+(print '(setf foo/c (+ foo.a foo.b)))
+
+; => (SETF (C FOO) (+ (SLOT-VALUE FOO 'A) (SLOT-VALUE FOO 'B)))
+#+END_SRC
+
+See slots-and-accessors-test.lisp for a demonstration.
+
+** Instance Creation
+
+This example defines a reader that recognizes capitalized symbols
+and translates them into MAKE-INSTANCE forms.
+
+E.g. "(Foo :a 1 :b 2)" becomes (MAKE-INSTANCE 'FOO :A 1 :B 2).
+
+This reader could make code that uses many different classes and
+that relies heavily on MAKE-INSTANCE a bit easier to write, and
+possibly to read.
+
+See instance-creation-test.lisp for a demonstration.
+
+** Keyword Messages
+
+This example defines a reader that recognizes "keyword messages"
+similar to those found in Smalltalk.  In a message form, the first
+element is the recipient of the message and the rest is any number
+of alternating keywords and arguments.  The keywords are of the
+form "foo:" (which would normally be illegal in Common Lisp).
+This is, of course, purely an exercise in syntax.  No other
+aspects of Smalltalk message passing are implemented.
+
+An example message looks like this:
+
+(1 to: 5 do: #'print)
+
+and by default, it is simply translated into:
+
+(TO=DO= 1 5 #'PRINT)
+
+If a message consists solely of keywords, then it is interpreted as a
+unary message chain. For example:
+
+(1.5 floor: 1+: prin1-to-string:)
+
+becomes:
+
+(PRIN1-TO-STRING (1+ (FLOOR 1.5)))
+
+A recipient can itself be a message form.  This means that the
+following is also valid:
+
+((1 to: 5) third: 1+:)
+
+this becomes:
+
+(1+ (THIRD (TO= 1 5)))
+
+See keyword-messages-test.lisp for a demonstration.
+
