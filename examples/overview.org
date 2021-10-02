@@ -15,7 +15,7 @@ of like a symbol macro for a set of symbols that applies to the entire
 file.
 
 For instance, symbols ending with a "^" could expand into a call to
-GETHASH, like so:
+~GETHASH~, like so:
 
 #+BEGIN_SRC lisp
 (incf foo^) => (incf (gethash 'foo *my-counters* 0))
@@ -79,10 +79,10 @@ https://franz.com/support/documentation/current/doc/packages.htm#resolving-relat
 
 ** Slots and Accessors
 
-This reader will recognize symbol patterns like "FOO.A" or "FOO/ID"
-and replace them with calls to (SLOT-VALUE FOO 'A) or (ID FOO)
-respectively. This provides an always-on alternative to WITH-SLOTS and
-WITH-ACCESSORS.
+This reader will recognize symbol patterns like ~FOO.A~ or ~FOO/ID~
+and replace them with calls to ~(SLOT-VALUE FOO 'A)~ or ~(ID FOO)~
+respectively. This provides an always-on alternative to ~WITH-SLOTS~ and
+~WITH-ACCESSORS~.
 
 Example:
 #+BEGIN_SRC lisp
@@ -96,7 +96,7 @@ See slots-and-accessors-test.lisp for a demonstration.
 ** Instance Creation
 
 This example defines a reader that recognizes capitalized symbols
-and translates them into MAKE-INSTANCE forms.
+and translates them into ~MAKE-INSTANCE~ forms.
 
 Example:
  
@@ -122,7 +122,7 @@ This example defines a reader that recognizes "keyword messages"
 similar to those found in Smalltalk.  In a message form, the first
 element is the recipient of the message and the rest is any number
 of alternating keywords and arguments.  The keywords are of the
-form "foo:" (which would normally be illegal in Common Lisp).
+form ~foo:~ (which would normally be illegal in Common Lisp).
 This is, of course, purely an exercise in syntax.  No other
 aspects of Smalltalk message passing are implemented.
 
