@@ -121,6 +121,25 @@ possibly to read.
 
 See [[https://github.com/pve1/eclector-access/blob/master/examples/instance-creation-test.lisp][instance-creation-test.lisp]] for a demonstration.
 
+** When packages
+
+This reader understands (when-packages PACKAGES &body BODY) forms,
+whose BODY may contain symbols that reference packages that do not
+exist. The body is evaluated only if PACKAGES exist at runtime.
+
+Example:
+
+#+BEGIN_SRC lisp
+(when-packages (:when-packages-test.foo)
+  (print 'when-packages-test.foo::a))
+#+END_SRC
+
+This will print ~WHEN-PACKAGES-TEST.FOO::A~ only if the package
+~WHEN-PACKAGES-TEST.FOO~ exists when the code is evaluated. If the
+package does not exist, then the form will evaluate to ~nil~.
+
+See [[https://github.com/pve1/eclector-access/blob/master/examples/when-packages-test.lisp][when-packages-test.lisp]] for a demonstration.
+
 ** Keyword Messages
 
 This example defines a (pretty adventurous) reader that recognizes
@@ -170,4 +189,3 @@ this becomes:
 #+END_SRC
 
 See [[https://github.com/pve1/eclector-access/blob/master/examples/keyword-messages-test.lisp][keyword-messages-test.lisp]] for a demonstration.
-
