@@ -124,8 +124,11 @@ See [[https://github.com/pve1/eclector-access/blob/master/examples/instance-crea
 ** When packages
 
 This reader understands (when-packages PACKAGES &body BODY) forms,
-whose BODY may contain symbols that reference packages that do not
-exist. The body is evaluated only if PACKAGES exist at runtime.
+whose ~BODY~ may contain symbols that reference packages that do not
+exist. The body of a ~WHEN-PACKAGES~ form will be evaluated if
+~PACKAGES~ exist when the form is read. The body of a
+~WHEN-PACKAGES-DYNAMIC~ form will be evaluated if ~PACKAGES~ exist at
+runtime.
 
 Example:
 
@@ -133,10 +136,6 @@ Example:
 (when-packages (:when-packages-test.foo)
   (print 'when-packages-test.foo::a))
 #+END_SRC
-
-This will print ~WHEN-PACKAGES-TEST.FOO::A~ only if the package
-~WHEN-PACKAGES-TEST.FOO~ exists when the code is evaluated. If the
-package does not exist, then the form will evaluate to ~nil~.
 
 See [[https://github.com/pve1/eclector-access/blob/master/examples/when-packages-test.lisp][when-packages-test.lisp]] for a demonstration.
 
