@@ -41,15 +41,16 @@
 (defmacro when-packages (packages &body body)
   (declare (ignore packages body)))
 
-(defmethod eclector-access:translate-read-result ((client reader) (read-result cons))
-  (if (eq 'when-packages (car read-result))
-      (destructuring-bind (when-packages packages &rest body)
-          read-result
-        (declare (ignore when-packages))
-        `(when (and ,@(loop :for p :in packages
-                            :collect `(find-package ',p)))
-           (eval (read-from-string ,(prin1-to-string `(progn ,@body))))))
-      read-result))
+(defun check-no-unknown-symbols (tree)
+  (labels ((walk (tree)
+             (typecase tree
+               (cons
+                (walk (car tree))
+                (walk (cdr tree)))
+               (t (when (typep tree 'unknown-symbol)
+                    (error "Unknown symbol ~A." tree))))))
+    (walk tree)
+    tree))
 
 (defmethod eclector-access:translate-read-result ((client reader) (read-result cons))
   (case (car read-result)
@@ -65,6 +66,7 @@
          read-result
        (declare (ignore when-packages))
        (when (loop :for p :in packages :always (find-package p))
+         (check-no-unknown-symbols read-result)
          `(progn ,@body))))
     (t read-result)))
 

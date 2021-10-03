@@ -8,10 +8,10 @@
 
 ;;; This reader understands (when-packages PACKAGES &body BODY) forms,
 ;;; whose BODY may contain symbols that reference packages that do not
-;;; exist. The body of a ~WHEN-PACKAGES~ form will be evaluated if
+;;; exist. The body of a WHEN-PACKAGES form will be evaluated if
 ;;; PACKAGES exist when the form is read. The body of a
-;;; ~WHEN-PACKAGES-DYNAMIC~ form will be evaluated if PACKAGES exist
-;;; at runtime.
+;;; WHEN-PACKAGES-DYNAMIC form will be evaluated if PACKAGES exist at
+;;; runtime.
 
 (eclector-access:enable (make-instance 'when-packages::reader))
 
@@ -34,21 +34,33 @@
 ; => WHEN-PACKAGES-TEST.FOO::B
 
 (print (read-from-string
-        "(when-packages (:foo)
-            (foo:a foo:b foo:c))"))
+        "(when-packages (:missing)
+            (missing:a missing:b missing:c))"))
 
 ; => NIL
 
 (print (read-from-string
         "(when-packages (:when-packages-test.foo)
-            (foo:a foo:b foo:c))"))
+            (when-packages-test.foo::a
+             when-packages-test.foo::b
+             when-packages-test.foo::c))"))
 
-; => (PROGN (FOO::A FOO::B FOO::C))
+; => (PROGN
+;      (WHEN-PACKAGES-TEST.FOO::A
+;       WHEN-PACKAGES-TEST.FOO::B
+;       WHEN-PACKAGES-TEST.FOO::C))
 
 ;; The dynamic variant uses eval.
 (print (read-from-string
-        "(when-packages-dynamic (:foo)
-            (foo:a foo:b foo:c))"))
+        "(when-packages-dynamic (:when-packages-test.foo)
+            (when-packages-test.foo::a
+             when-packages-test.foo::b
+             when-packages-test.foo::c))"))
 
-; => (WHEN (AND (FIND-PACKAGE ':FOO))
-;      (EVAL (READ-FROM-STRING "(PROGN (FOO::A FOO::B FOO::C))")))
+; => (WHEN (AND (FIND-PACKAGE ':WHEN-PACKAGES-TEST.FOO))
+;      (EVAL
+;        (READ-FROM-STRING
+;          "(PROGN
+;             (WHEN-PACKAGES-TEST.FOO::A
+;              WHEN-PACKAGES-TEST.FOO::B
+;              WHEN-PACKAGES-TEST.FOO::C))")))
