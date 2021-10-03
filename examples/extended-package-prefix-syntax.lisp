@@ -44,7 +44,9 @@
   (if *alternate-package*
       (call-next-method client
                         input-stream
-                        (package-name *alternate-package*)
+                        (if (eq package-indicator :current)
+                            (package-name *alternate-package*)
+                            package-indicator)
                         symbol-name
                         internp)
       (call-next-method)))
